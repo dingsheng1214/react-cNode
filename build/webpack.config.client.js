@@ -17,6 +17,10 @@ const config = {
         //很重要
         publicPath: '/public/',
     },
+    //解析
+    resolve: {
+        extensions: ['.js', '.jsx'], // 自动解析确定的扩展
+    },
     module: {
         rules: [
             {
