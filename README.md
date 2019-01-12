@@ -24,23 +24,33 @@
   yarn add react-router-dom
   ```
 
+### Route && Redirect
+
   ```js
   //router.jsx
   export default () => [
+    <Route path="/" render={() => <Redirect to="/list" />} exact />,
     <Route path="/" component={TopicList} exact />,
     <Route path="/detail" component={TopicDetail} exact />,
   ]
   ```
 
+### Link
+
   ```js
   //app.jsx
   render() {
     return [
-      <div>This is app</div>,
+      <div>
+        <Link to="/">首页</Link>
+        <Link to="/detail">详情页</Link>
+      </div>,
       <Routes />,
     ]
   }
   ```
+
+### BrowserRouter
 
   ```js
   // app.js
