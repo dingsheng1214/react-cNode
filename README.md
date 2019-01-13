@@ -228,3 +228,11 @@ autorun(() => {
   console.log(appState.msg)
 })
 ```
+
+## cnode API代理实现
+
++ handle-login.js 代理 longin 请求
+
++ proxy.js 代理剩余请求
+
+![avatar](./l1.jpg)

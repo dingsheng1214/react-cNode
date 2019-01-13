@@ -8,11 +8,15 @@ module.exports = {
         app: path.join(__dirname, '../client/server-entry.js')
     },
     output: {
-        filename: 'server-entry.js', 
+        filename: 'server-entry.js',
         path: path.join(__dirname, '../dist'),
-        publicPath: '/public', 
+        publicPath: '/public',
         //nodejs的模块机制 是 commonjs
         libraryTarget: 'commonjs2'
+    },
+    //解析
+    resolve: {
+      extensions: ['.js', '.jsx'], // 自动解析确定的扩展
     },
     module: {
         rules: [
@@ -27,14 +31,14 @@ module.exports = {
             },
             {   //将jsx转换成 js
                 test: /.jsx$/,
-                loader: 'babel-loader'  
+                loader: 'babel-loader'
             },
             {   //将ES6语法转成 低版本语法
                 test: /.js$/,
                 loader: 'babel-loader',
                 exclude: [//排除node_modules 下的js
                     path.join(__dirname,'../node_modules')
-                ]  
+                ]
             }
         ]
     },
