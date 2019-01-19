@@ -60,6 +60,7 @@ if(isDev){
         'react-hot-loader/patch', //设置这里
         path.join(__dirname, '../client/app.js')
     ]
+    config.devtool = '#cheap-module-eval-source-map'
     config.devServer = {
         host: '0.0.0.0',
         port: '8887',

@@ -19,7 +19,7 @@ class TestApi extends React.Component {
 
   login() {
     axios.post('/api/user/login', {
-      accesstoken: '123'
+      accesstoken: '4bc6845f-313b-47c7-bc2e-484c5beb1752'
     }).then(result => {
       console.log(result)
     })

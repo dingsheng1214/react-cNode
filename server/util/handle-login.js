@@ -6,13 +6,14 @@ const baseUrl = 'https://cnodejs.org/api/v1'
 // 设置 login 路由
 router.post('/login', (req, res, next) => {
   // 验证token的正确性
+  console.log(req.body.accesstoken)
   axios.post(`${baseUrl}/accesstoken`, {
-    accesstoken: req.body.accessToken
+    accesstoken: req.body.accesstoken
   }).then(result => {
     if (result.status === 200 && result.data.success === true) {
       // 如果token验证通过，则把用户信息保存在session中
       req.session.user = {
-        accessToken: req.body.accessToken,
+        accesstoken: req.body.accesstoken,
         loginname: result.data.loginname,
         id: result.data.id,
         avatar_url: result.data.avatar_url
