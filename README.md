@@ -236,3 +236,12 @@ autorun(() => {
 + proxy.js 代理剩余请求
 
 ![avatar](./l1.jpg)
+
+
+## Material-UI 的使用
+
+### 安装
+
+```sh
+yarn add @material-ui/core @material-ui/icons
+```
