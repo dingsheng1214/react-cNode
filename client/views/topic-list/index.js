@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import axios from 'axios'
+// import axios from 'axios'
 import {
   observer,
   inject,
@@ -9,6 +9,7 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import List from '@material-ui/core/List';
 
 // import AppState from '../../store/app-state'
 import Container from '../layout/container'
@@ -23,23 +24,26 @@ const styles = theme => ({
 });
 
 
-@inject('appState') @observer
+@inject(stores => (
+  {
+    appState: stores.appState,
+    topicStore: stores.topicStore,
+  }
+)) @observer
 class TopicList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       tabIndex: 0,
-      topics: [],
+      // topics: [],
     }
     this.changeTab = this.changeTab.bind(this)
     this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidMount() {
-    axios.get('/api/topics')
-      .then(result => this.setState({
-        topics: result.data.data,
-      }))
+    const { topicStore } = this.props
+    topicStore.fetchTopics()
   }
 
   changeTab(e, tabIndex) {
@@ -54,8 +58,9 @@ class TopicList extends React.Component {
   }
 
   render() {
-    const { classes } = this.props
-    const { tabIndex, topics } = this.state
+    const { classes, topicStore } = this.props
+    const { tabIndex } = this.state
+    const { topics } = topicStore
 
     return (
       <div className={classes.root}>
@@ -75,13 +80,13 @@ class TopicList extends React.Component {
             <Tab label="招聘" />
             <Tab label="客户端测试" />
           </Tabs>
-          <div>
+          <List>
             {
               topics.map(topic => (
                 <TopicListItem topic={topic} onClick={this.handleClick} key={topic.id} />
               ))
             }
-          </div>
+          </List>
 
         </Container>
       </div>
@@ -89,8 +94,10 @@ class TopicList extends React.Component {
   }
 }
 
+TopicList.wrappedComponent.propTypes = {
+  topicStore: PropTypes.object.isRequired,
+}
 TopicList.propTypes = {
-  // appState: PropTypes.instanceOf(AppState),
   classes: PropTypes.object.isRequired,
 }
 

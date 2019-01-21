@@ -8,7 +8,7 @@ module.exports = function (req, res, next) {
   const user = req.session.user || {}
   const needAccessToken = req.query.needAccessToken
 
-  console.log(path, user, needAccessToken)
+  console.log('user:', user)
   // 如果请求需要 token 但是 user信息里没有 token 则 提示 需要登录
   if (needAccessToken && !user.accesstoken) {
     res.status(401).send({
