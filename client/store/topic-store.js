@@ -32,13 +32,15 @@ class TopicStore {
     this.topics = [...this.topics, new Topic(createTopic(topic))]
   }
 
-  @action fetchTopics(tab = 'all') {
+  @action fetchTopics(tab = 'all', page = 0, limit = 20) {
     this.topics = []
     return new Promise((resolve, reject) => {
       this.syncing = true
       get('topics', {
         mdrender: false,
         tab,
+        page,
+        limit,
       }).then((resp) => {
         if (resp.success) {
           resp.data.forEach((topic) => {
