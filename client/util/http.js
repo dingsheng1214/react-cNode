@@ -10,7 +10,7 @@ const parseUrl = (url, params) => {
     result += `${key}=${params[key]}&`
     return result
   }, '')
-  return `${url}?${str.substr(0, str.length - 1)}`
+  return `api/${url}?${str.substr(0, str.length - 1)}`
 }
 export const get = (url, param) => (
   new Promise((resolve, reject) => {

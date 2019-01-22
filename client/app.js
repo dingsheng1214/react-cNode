@@ -5,16 +5,14 @@ import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'mobx-react'
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { lightBlue } from '@material-ui/core/colors';
+import { lightBlue, pink } from '@material-ui/core/colors';
 import App from './views/App'
 import { topicStore, appState } from './store'
 
 const theme = createMuiTheme({
   palette: {
     primary: lightBlue,
-    secondary: {
-      main: '#f50057',
-    },
+    secondary: pink,
   },
   typography: {
     useNextVariants: true,

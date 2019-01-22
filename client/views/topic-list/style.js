@@ -12,7 +12,17 @@ const primaryStyles = theme => ({
     color: '#555',
     fontSize: '16px',
   },
-  tab: {
+  topTab: {
+    backgroundColor: theme.palette.secondary[500],
+    textAlign: 'center',
+    padding: '2px 4px',
+    color: '#fff',
+    borderRadius: 3,
+    fontSize: '12px',
+    minWidth: '40px',
+    margin: '0 10px 0 10px',
+  },
+  normalTab: {
     backgroundColor: theme.palette.primary[500],
     textAlign: 'center',
     padding: '2px 4px',

@@ -3,7 +3,7 @@ import {
   action,
   extendObservable,
 } from 'mobx'
-import { topicSchema } from '../util/variable-define'
+import { topicSchema } from '../util/constant'
 import { get } from '../util/http'
 
 const createTopic = topic => (
@@ -32,11 +32,13 @@ class TopicStore {
     this.topics = [...this.topics, new Topic(createTopic(topic))]
   }
 
-  @action fetchTopics() {
+  @action fetchTopics(tab = 'all') {
+    this.topics = []
     return new Promise((resolve, reject) => {
       this.syncing = true
-      get('/api/topics', {
+      get('topics', {
         mdrender: false,
+        tab,
       }).then((resp) => {
         if (resp.success) {
           resp.data.forEach((topic) => {
