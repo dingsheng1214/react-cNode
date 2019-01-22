@@ -14,6 +14,7 @@ import queryString from 'query-string'
 import Container from '../layout/container'
 import TopicListItem from './list-item'
 import { tabs } from '../../util/constant'
+import Pagination from '../layout/pagination'
 
 const styles = theme => ({
   root: {
@@ -37,6 +38,7 @@ const styles = theme => ({
   }
 )) @observer
 class TopicList extends React.Component {
+  // 获取 父组件 的 router信息
   static contextTypes = {
     router: PropTypes.object,
   }
@@ -45,6 +47,7 @@ class TopicList extends React.Component {
     super(props)
     this.changeTab = this.changeTab.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.changePage = this.changePage.bind(this)
   }
 
   // 页面首次加载数据
@@ -54,39 +57,49 @@ class TopicList extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { topicStore, location } = this.props
-    console.log('---->')
     if (nextProps.location.search !== location.search) {
-      console.log('<-----')
-      topicStore.fetchTopics(this.getTab(nextProps.location.search))
+      const { tab, page, limit } = this.getSearch(nextProps.location.search)
+      topicStore.fetchTopics(tab, page, limit)
     }
   }
 
   // 获取当前tab
-  getTab(search) {
+  getSearch(search) {
     const { location } = this.props
     search = search || location.search
     const query = queryString.parse(search)
-    const tab = query.tab || 'all'
-    return tab
+    const { tab = 'all', page, limit } = query
+    return {
+      tab,
+      page,
+      limit,
+    }
   }
 
   // mobx 提供的 action
-  fetchTopics(tab) {
+  fetchTopics(tab, page, limit) {
     const { topicStore } = this.props
-    topicStore.fetchTopics(tab)
+    topicStore.fetchTopics(tab, page, limit)
   }
 
   // 切换tab
   changeTab(e, tab) {
-    console.log(this.context)
     const { router } = this.context
     router.history.push({
       pathname: '/list',
       search: `?tab=${tab}`,
     })
-    // this.fetchTopics(tab)
-    console.log(this.props)
-    console.log(this.context)
+  }
+
+  changePage(page, limit) {
+    console.log(page, limit)
+    const { router } = this.context
+    const { tab } = this.getSearch()
+    router.history.push({
+      pathname: '/list',
+      search: `?tab=${tab}&page=${page}&limit=${limit}`,
+    })
+    console.log(router)
   }
 
   handleClick() {
@@ -96,9 +109,9 @@ class TopicList extends React.Component {
 
   render() {
     const { classes, topicStore } = this.props
-    console.log(this.props)
+    // console.log(this.props)
     const { topics, syncing } = topicStore
-    const tab = this.getTab()
+    const { tab } = this.getSearch()
     return (
       <div className={classes.root}>
         <Container>
@@ -122,7 +135,10 @@ class TopicList extends React.Component {
                 ))
             }
           </List>
-
+          <Pagination
+            rows={topics.length}
+            changePage={(page, limit) => { this.changePage(page, limit) }}
+          />
         </Container>
       </div>
     )
@@ -135,7 +151,6 @@ TopicList.wrappedComponent.propTypes = {
 TopicList.propTypes = {
   classes: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  // history: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(TopicList)
