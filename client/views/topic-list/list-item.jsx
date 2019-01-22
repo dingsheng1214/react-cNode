@@ -8,6 +8,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 
 import primaryStyles from './style'
+import { tabs } from '../../util/constant'
 
 const Primary = ({ classes, topic }) => (
   <div className={classes.root1}>
@@ -17,7 +18,12 @@ const Primary = ({ classes, topic }) => (
         <span>/</span>
         <span className={classes.read}>{topic.visit_count}</span>
       </div>
-      <span className={classes.tab}>{topic.tab}</span>
+      {
+        topic.top === true || topic.good === true
+          ? <span className={classes.topTab}>{ topic.top === true ? '置顶' : tabs.good }</span>
+          : <span className={classes.normalTab}>{ tabs[topic.tab] }</span>
+      }
+
       <span className={classes.title}>{topic.title}</span>
     </div>
     <div className={classes.create}>
