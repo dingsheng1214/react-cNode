@@ -5,12 +5,15 @@
 
 import axios from 'axios'
 
+const baseUrl = 'http://localhost:8887/'
 const parseUrl = (url, params) => {
   const str = Object.keys(params).reduce((result, key) => {
     result += `${key}=${params[key]}&`
     return result
   }, '')
-  return `api/${url}?${str.substr(0, str.length - 1)}`
+  const finalUrl = `api/${url}?${str.substr(0, str.length - 1)}`
+  console.log(finalUrl)
+  return `${baseUrl}${finalUrl}`
 }
 export const get = (url, param) => (
   new Promise((resolve, reject) => {
