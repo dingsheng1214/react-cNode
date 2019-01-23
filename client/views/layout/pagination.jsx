@@ -4,7 +4,7 @@ import Table from '@material-ui/core/Table';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableFooter from '@material-ui/core/TableFooter';
 import TableRow from '@material-ui/core/TableRow';
-import PageAction from './pageAction'
+// import PageAction from './pageAction'
 
 class Pagination extends React.Component {
   constructor(props) {
@@ -42,6 +42,8 @@ class Pagination extends React.Component {
             <TablePagination
               rowsPerPageOptions={[20, 40, 60, 80, 100]} // 每页多少条数组
               rowsPerPage={rowsPerPage}// 当前每页条数
+              labelRowsPerPage="每页"
+              labelDisplayedRows={({ from, to }) => `${from}-${to}`}
               count={rows} // 共有多少条
               page={page} // 当前页
               SelectProps={{ // 下拉框使用原生样式
@@ -49,7 +51,12 @@ class Pagination extends React.Component {
               }}
               onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.handleChangeRowsPerPage}// 修改每页条数
-              ActionsComponent={PageAction}// 分页触发器
+              backIconButtonProps={{
+                'aria-label': 'Previous Page',
+              }}
+              nextIconButtonProps={{
+                'aria-label': 'Next Page',
+              }}
             />
           </TableRow>
         </TableFooter>

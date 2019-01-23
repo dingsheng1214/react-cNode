@@ -99,11 +99,11 @@ class TopicList extends React.Component {
       pathname: '/list',
       search: `?tab=${tab}&page=${page}&limit=${limit}`,
     })
-    console.log(router)
   }
 
-  handleClick() {
-
+  handleClick(id) {
+    const { router } = this.context
+    router.history.push({ pathname: `/detail/${id}` })
   }
 
 
@@ -131,7 +131,11 @@ class TopicList extends React.Component {
             {
               syncing ? <div className={classes.loading}><CircularProgress color="secondary" size={80} /></div>
                 : topics.map(topic => (
-                  <TopicListItem topic={topic} onClick={this.handleClick} key={topic.id} />
+                  <TopicListItem
+                    topic={topic}
+                    onClick={() => this.handleClick(topic.id)}
+                    key={topic.id}
+                  />
                 ))
             }
           </List>

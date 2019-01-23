@@ -8,7 +8,7 @@ import ApiTest from '../views/test/api-test'
 
 export default () => [
   <Route path="/" render={() => <Redirect to="/list" />} exact key="index" />,
-  <Route path="/list" component={TopicList} exact key="list" />,
-  <Route path="/detail" component={TopicDetail} exact key="detail" />,
+  <Route path="/list" component={TopicList} key="list" />,
+  <Route path="/detail/:id" component={TopicDetail} key="detail" />,
   <Route path="/test" component={ApiTest} exact key="test" />,
 ]
