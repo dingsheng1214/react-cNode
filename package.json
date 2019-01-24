@@ -54,6 +54,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "marked": "^0.6.0",
     "mobx": "^5.8.0",
     "mobx-react": "^5.4.3",
     "morgan": "^1.9.1",

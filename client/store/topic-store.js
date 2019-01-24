@@ -43,6 +43,7 @@ class TopicStore {
   @computed get detailMap() {
     return this.details.reduce((result, detail) => {
       result[detail.id] = detail
+      console.log(result)
       return result
     }, {})
   }
