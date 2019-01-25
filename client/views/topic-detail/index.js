@@ -13,6 +13,8 @@ import List from '@material-ui/core/List';
 
 import marked from 'marked'
 import highlight from 'highlightjs'
+import dateFormat from 'dateformat'
+
 import Container from '../layout/container'
 import styles from './style'
 import { tabs } from '../../util/constant'
@@ -79,7 +81,7 @@ class TopicDetail extends React.Component {
               </a>
               <span>
                 发布于:
-                {topic.create_at}
+                {dateFormat(topic.create_at, 'yyyy-mm-dd')}
               </span>
               <span>
                 作者:
