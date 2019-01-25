@@ -52,6 +52,7 @@
     "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
+    "dateformat": "^3.0.3",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "highlightjs": "^9.12.0",

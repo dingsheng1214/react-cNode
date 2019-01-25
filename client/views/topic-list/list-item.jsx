@@ -7,6 +7,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 
+import dateFormat from 'dateformat'
 import primaryStyles from './style'
 import { tabs } from '../../util/constant'
 
@@ -30,7 +31,7 @@ const Primary = ({ classes, topic }) => (
       {/* <Avatar src={topic.image} /> */}
       <span>
         更新时间:
-        {topic.last_reply_at}
+        {dateFormat(topic.last_reply_at, 'yyyy-mm-dd')}
       </span>
     </div>
   </div>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
+import dateFormat from 'dateformat'
 
 
 import marked from 'marked'
@@ -32,7 +33,7 @@ class ReplyItem extends React.Component {
             <a className={classes.reply_time} href={`#${reply.id}`}>
               {index}
               楼·
-              {reply.create_at}
+              {dateFormat(reply.create_at, 'yyyy-mm-dd')}
             </a>
           </div>
         </div>
