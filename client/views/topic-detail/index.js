@@ -9,10 +9,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
+import List from '@material-ui/core/List';
+
 import marked from 'marked'
+import highlight from 'highlightjs'
 import Container from '../layout/container'
 import styles from './style'
 import { tabs } from '../../util/constant'
+import ReplyItem from './reply-item'
 
 @inject(stores => (
   {
@@ -22,6 +26,12 @@ import { tabs } from '../../util/constant'
 class TopicDetail extends React.Component {
   componentDidMount() {
     this.getTopicDetail()
+
+    marked.setOptions({
+      highlight(code) {
+        return highlight.highlightAuto(code).value;
+      },
+    })
   }
 
   // 获取话题 ID
@@ -59,25 +69,27 @@ class TopicDetail extends React.Component {
               <span>{topic.title}</span>
             </div>
             <div className={classes.changes}>
-              <Avatar
-                alt={topic.author.loginname}
-                src={topic.author.avatar_url}
-                style={{ width: '30px', height: '30px' }}
-                title={topic.author.loginname}
-              />
-              <span style={{ marginRight: '20px' }}>
+              <a href={`/user/${topic.author.loginname}`}>
+                <Avatar
+                  alt={topic.author.loginname}
+                  src={topic.author.avatar_url}
+                  style={{ width: '30px', height: '30px' }}
+                  title={topic.author.loginname}
+                />
+              </a>
+              <span>
                 发布于:
                 {topic.create_at}
               </span>
-              <span style={{ marginRight: '20px' }}>
+              <span>
                 作者:
                 {topic.author.loginname}
               </span>
-              <span style={{ marginRight: '20px' }}>
+              <span>
                 {topic.visit_count}
                 次浏览
               </span>
-              <span style={{ marginRight: '20px' }}>
+              <span>
                 来自:
                 {tabs[topic.tab]}
               </span>
@@ -93,6 +105,9 @@ class TopicDetail extends React.Component {
             <span>{topic.reply_count}</span>
             <span> 回复</span>
           </div>
+          <List>
+            { topic.replies.map((n, i) => <ReplyItem reply={n} key={n.id} index={i + 1} />) }
+          </List>
         </Paper>
       </Fragment>
     )

@@ -4,6 +4,7 @@ const detailStyles = theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: '40px 0',
+    // marginTop: '40px',
   },
   header: {
     display: 'flex',
@@ -30,10 +31,23 @@ const detailStyles = theme => ({
     color: '#838383',
     display: 'flex',
     alignItems: 'center',
+    '& span': {
+      margin: '0 20px',
+    },
   },
   content: {
     fontSize: '14px',
     padding: '10px',
+    '& img': {
+      maxWidth: '100%',
+      display: 'block',
+    },
+    '& ul, & ol': {
+      paddingLeft: 30,
+      '& li': {
+        marginBottom: 7,
+      },
+    },
   },
   paper: {
     margin: '24px',
@@ -44,6 +58,26 @@ const detailStyles = theme => ({
     padding: '10px',
     backgroundColor: '#f6f6f6',
     borderRadius: '3px 3px 0 0',
+  },
+  reply_item: {
+    padding: '10px 0 10px 10px',
+    fontSize: '14px',
+  },
+  reply_author_content: {
+    display: 'flex',
+  },
+  user_info: {
+    marginLeft: '10px',
+  },
+  reply_author: {
+    color: '#666',
+    textDecoration: 'none',
+  },
+  reply_time: {
+    color: '#08c',
+    fontSize: '11px',
+    textDecoration: 'none',
+    marginLeft: '10px',
   },
 })
 
