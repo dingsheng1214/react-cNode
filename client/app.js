@@ -7,7 +7,7 @@ import { Provider } from 'mobx-react'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { lightBlue, pink } from '@material-ui/core/colors';
 import App from './views/App'
-import { topicStore, appState } from './store'
+import { topicStore, AppState } from './store'
 
 const theme = createMuiTheme({
   palette: {
@@ -18,6 +18,9 @@ const theme = createMuiTheme({
     useNextVariants: true,
   },
 });
+
+const appState = new AppState()
+
 const root = document.getElementById('root')
 const render = (Component) => {
   ReactDOM.render(

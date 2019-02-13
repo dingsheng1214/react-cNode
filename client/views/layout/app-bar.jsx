@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import Avatar from '@material-ui/core/Avatar';
+import { inject, observer } from 'mobx-react';
 
 const styles = {
   root: {
@@ -20,28 +22,70 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
+  avatar: {
+    width: '30px',
+    height: '30px',
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  },
 }
 
+@inject(stores => ({
+  appState: stores.appState,
+})) @observer
 class MainAppBar extends React.Component {
+  static contextTypes = {
+    router: PropTypes.object,
+  }
+
   constructor(props) {
     super(props)
     this.iconBtnClick = this.iconBtnClick.bind(this)
     this.createBtnClick = this.createBtnClick.bind(this)
     this.loginBtnClick = this.loginBtnClick.bind(this)
   }
-/* eslint-disable */
-  iconBtnClick() {
 
+  iconBtnClick() {
+    const { router } = this.context
+    router.history.push({
+      pathname: '/',
+    })
   }
+
   createBtnClick() {
 
   }
-  loginBtnClick() {
 
+  loginBtnClick() {
+    const { router } = this.context
+    const { appState } = this.props;
+    const { isLogin } = appState.user
+    const pathname = isLogin ? '/user/info' : '/user/login'
+    router.history.push({
+      pathname,
+    })
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, appState } = this.props;
+    const { isLogin, info } = appState.user
+    const { loginname, avatar_url: avatarUrl } = info
+    let userBtn = null
+    // 是否登录
+    if (isLogin) {
+      userBtn = (
+        <Avatar
+          alt={loginname}
+          src={avatarUrl}
+          className={classes.avatar}
+          title={loginname}
+          onClick={this.loginBtnClick}
+        />
+      )
+    } else {
+      userBtn = <Button color="inherit" onClick={this.loginBtnClick}>登录</Button>
+    }
     return (
       <div className={classes.root}>
         <AppBar position="fixed">
@@ -52,12 +96,10 @@ class MainAppBar extends React.Component {
             <Typography className={classes.grow} title="title" color="inherit">
               cNode
             </Typography>
-            <Button  color="inherit" onClick={this.createBtnClick}>
+            <Button color="inherit" onClick={this.createBtnClick}>
               新建话题
             </Button>
-            <Button  color="inherit" onClick={this.loginBtnClick}>
-              登录
-            </Button>
+            {userBtn}
           </Toolbar>
         </AppBar>
       </div>
@@ -65,8 +107,11 @@ class MainAppBar extends React.Component {
   }
 }
 
+MainAppBar.wrappedComponent.propTypes = {
+  appState: PropTypes.object.isRequired,
+}
 MainAppBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(MainAppBar)

@@ -85,6 +85,7 @@ class TopicList extends React.Component {
   // 切换tab
   changeTab(e, tab) {
     const { router } = this.context
+    // 改变url
     router.history.push({
       pathname: '/list',
       search: `?tab=${tab}`,
@@ -101,6 +102,7 @@ class TopicList extends React.Component {
     })
   }
 
+  // 点击列表进入详情页
   handleClick(id) {
     const { router } = this.context
     router.history.push({ pathname: `/detail/${id}` })

@@ -1,3 +1,7 @@
 /node_modules/*
 /dist/*
 yarn.lock
+.idea/encodings.xml
+.idea/jsLibraryMappings.xml
+
+
