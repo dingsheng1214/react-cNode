@@ -1,7 +1,7 @@
 import topicStore from './topic-store'
-import appState from './app-state'
+import AppState from './app-state'
 
 export {
   topicStore,
-  appState,
+  AppState,
 }

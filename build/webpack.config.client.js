@@ -42,6 +42,13 @@ const config = {
                 exclude: [//排除node_modules 下的js
                     path.join(__dirname,'../node_modules')
                 ]
+            },
+            {   // 解析 图片
+              test: /\.(png|jpg|gif|svg)$/,
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]?[hash]'
+              }
             }
         ]
     },

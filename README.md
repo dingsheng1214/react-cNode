@@ -62,6 +62,19 @@
     <App />
   </BrowserRouter>
   ```
+### 如何切换路由
+```js
+  // 通过context 获取 router
+  static contextTypes = {
+    router: PropTypes.object,
+  }
+  const { router } = this.context
+  // router.history.replace('/user/info')
+  // 通过html5新增API history.pushState() 更改路由
+  router.history.push({
+    pathname: '/user/login'
+  })
+```
 
 ## [Mobx](https://cn.mobx.js.org/)
 
@@ -238,11 +251,6 @@ autorun(() => {
 ![avatar](./l1.jpg)
 
 
-## Material-UI 的使用
 
-### 安装
 
-```sh
-yarn add @material-ui/core @material-ui/icons
-```
 
