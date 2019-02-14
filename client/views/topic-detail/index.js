@@ -10,6 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
+import Button from '@material-ui/core/Button';
 
 import marked from 'marked'
 import highlight from 'highlightjs'
@@ -23,9 +24,19 @@ import ReplyItem from './reply-item'
 @inject(stores => (
   {
     topicStore: stores.topicStore,
+    appState: stores.appState,
   }
 )) @observer
 class TopicDetail extends React.Component {
+  constructor(props) {
+    super(props)
+    const { appState, match } = props
+    const isCollected = appState.user.collections.list.find(item => item.id === match.params.id)
+    this.state = {
+      isCollected,
+    }
+  }
+
   componentDidMount() {
     this.getTopicDetail()
 
@@ -49,10 +60,32 @@ class TopicDetail extends React.Component {
     topicStore.getTopicDetail(id)
   }
 
+  // 收藏
+  handleCollect(id) {
+    const { appState } = this.props
+    const { isCollected } = this.state
+    appState.collectTopic(id)
+    this.setState({
+      isCollected: !isCollected,
+    })
+  }
+
+  // 取消收藏
+  handleUnCollect(id) {
+    const { appState } = this.props
+    const { isCollected } = this.state
+    appState.unCollectTopic(id)
+    this.setState({
+      isCollected: !isCollected,
+    })
+  }
+
   render() {
-    const { classes, topicStore } = this.props
+    const { isCollected } = this.state
+    const { classes, topicStore, appState } = this.props
     const id = this.getTopicId()
     const topic = topicStore.detailMap[id]
+    const { user } = appState
     // 加载动画
     if (!topic) {
       return <div className={classes.loading}><CircularProgress color="secondary" size={80} /></div>
@@ -95,12 +128,29 @@ class TopicDetail extends React.Component {
                 来自:
                 {tabs[topic.tab]}
               </span>
+              {
+                user.isLogin ? (
+                  !isCollected
+                    ? (
+                      <Button variant="contained" color="primary" className={classes.collectBtn} onClick={() => this.handleCollect(id)}>
+                      关注
+                      </Button>
+                    )
+                    : (
+                      <Button variant="contained" color="secondary" className={classes.collectBtn} onClick={() => this.handleUnCollect(id)}>
+                        取消关注
+                      </Button>
+                    )
+                ) : null
+              }
             </div>
+
           </div>
           <Divider />
           <section className={classes.content}>
             <p dangerouslySetInnerHTML={{ __html: marked(topic.content) }} />
           </section>
+
         </Container>
         <Paper className={classes.paper}>
           <div className={classes.reply_header}>
@@ -118,6 +168,7 @@ class TopicDetail extends React.Component {
 
 TopicDetail.wrappedComponent.propTypes = {
   topicStore: PropTypes.object.isRequired,
+  appState: PropTypes.object.isRequired,
 }
 
 TopicDetail.propTypes = {

@@ -84,6 +84,38 @@ export default class AppState {
     })
   }
 
+  // 收藏
+  @action
+  collectTopic = id => new Promise((resolve, reject) => {
+    post('topic_collect/collect', { needAccessToken: true }, {
+      topic_id: id,
+    }).then((resp) => {
+      if (resp.success) {
+        resolve()
+      } else {
+        reject()
+      }
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+
+  // 取消收藏
+  @action
+  unCollectTopic = id => new Promise((resolve, reject) => {
+    post('topic_collect/de_collect', { needAccessToken: true }, {
+      topic_id: id,
+    }).then((resp) => {
+      if (resp.success) {
+        resolve()
+      } else {
+        reject()
+      }
+    }).catch((err) => {
+      reject(err)
+    })
+  })
+
   toJson() {
     return {
       user: toJS(this.user),

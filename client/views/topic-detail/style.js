@@ -35,6 +35,10 @@ const detailStyles = theme => ({
       margin: '0 20px',
     },
   },
+  collectBtn: {
+    color: '#fff',
+    fontSize: '14px',
+  },
   content: {
     fontSize: '14px',
     padding: '10px',
