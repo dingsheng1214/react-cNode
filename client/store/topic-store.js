@@ -48,6 +48,7 @@ class TopicStore {
     }, {})
   }
 
+  // 话题列表
   @action fetchTopics(tab = 'all', page = 0, limit = 20) {
     this.topics = []
     return new Promise((resolve, reject) => {
@@ -74,6 +75,7 @@ class TopicStore {
     })
   }
 
+  // 话题详情
   @action getTopicDetail(id) {
     return new Promise((resolve, reject) => {
       if (this.detailMap[id]) {
