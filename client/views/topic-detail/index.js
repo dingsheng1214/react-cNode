@@ -62,7 +62,6 @@ class TopicDetail extends React.Component {
 
   // 根据id 查询话题详情
   getTopicDetail() {
-    console.log('获取话题详情');
     const { topicStore } = this.props
     const id = this.getTopicId()
     topicStore.getTopicDetail(id)
@@ -96,13 +95,13 @@ class TopicDetail extends React.Component {
     })
   }
 
-  // 收藏
-  handleCollect(id) {
-    const { appState } = this.props
-    const { isCollected } = this.state
-    appState.collectTopic(id)
-    this.setState({
-      isCollected: !isCollected,
+
+  // 点击头像 进入用户信息页面
+  goToUserInfo = (loginname, e) => {
+    e.preventDefault()
+    const { router } = this.context
+    router.history.push({
+      pathname: `/user/${loginname}`,
     })
   }
 
@@ -111,6 +110,16 @@ class TopicDetail extends React.Component {
     const { appState } = this.props
     const { isCollected } = this.state
     appState.unCollectTopic(id)
+    this.setState({
+      isCollected: !isCollected,
+    })
+  }
+
+  // 收藏
+  handleCollect(id) {
+    const { appState } = this.props
+    const { isCollected } = this.state
+    appState.collectTopic(id)
     this.setState({
       isCollected: !isCollected,
     })
@@ -141,14 +150,13 @@ class TopicDetail extends React.Component {
               <span>{topic.title}</span>
             </div>
             <div className={classes.changes}>
-              <a href={`/user/${topic.author.loginname}`}>
-                <Avatar
-                  alt={topic.author.loginname}
-                  src={topic.author.avatar_url}
-                  style={{ width: '30px', height: '30px' }}
-                  title={topic.author.loginname}
-                />
-              </a>
+              <Avatar
+                alt={topic.author.loginname}
+                src={topic.author.avatar_url}
+                style={{ width: '30px', height: '30px', cursor: 'pointer' }}
+                onClick={e => this.goToUserInfo(topic.author.loginname, e)}
+                title={topic.author.loginname}
+              />
               <span>
                 发布于:
                 {dateFormat(topic.create_at, 'yyyy-mm-dd HH:MM:ss')}
@@ -216,7 +224,14 @@ class TopicDetail extends React.Component {
             )
           }
           <List>
-            { topic.replies.map((n, i) => <ReplyItem reply={n} key={n.id} index={i + 1} />) }
+            { topic.replies.map((n, i) => (
+              <ReplyItem
+                reply={n}
+                topicId={id}
+                key={n.id}
+                index={i + 1}
+              />
+            )) }
           </List>
         </Paper>
       </Fragment>

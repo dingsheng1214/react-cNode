@@ -111,6 +111,16 @@ const detailStyles = theme => ({
       opacity: 1,
     },
   },
+  replyIcon: {
+    position: 'absolute',
+    right: '10px',
+    opacity: 0.1,
+    transition: 'opacity .3s',
+    '&:hover': {
+      opacity: 1,
+      cursor: 'pointer',
+    },
+  },
 })
 
 export default detailStyles

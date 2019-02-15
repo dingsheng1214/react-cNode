@@ -43,7 +43,6 @@ class TopicStore {
   @computed get detailMap() {
     return this.details.reduce((result, detail) => {
       result[detail.id] = detail
-      console.log(result)
       return result
     }, {})
   }
@@ -77,11 +76,9 @@ class TopicStore {
 
   // 话题详情
   @action getTopicDetail(id) {
-    console.log('getTopicDetail');
     return new Promise((resolve, reject) => {
       // if (this.detailMap[id]) {
       //       //   // 添加到缓存
-      //       //   console.log('启用缓存');
       //       //   resolve(this.detailMap[id])
       //       // } else {
       get(`topic/${id}`, {
@@ -101,12 +98,11 @@ class TopicStore {
   }
 
   // 话题回复
-  @action doReply(id, content) {
+  @action doReply(id, content, replyId) {
+    // 是否是回复 其它的回复
+    const postData = !replyId ? { content } : { content, reply_id: replyId }
     return new Promise((resolve, reject) => {
-      post(`topic/${id}/replies`, { needAccessToken: true }, {
-        content,
-        reply_id: id,
-      }).then((resp) => {
+      post(`topic/${id}/replies`, { needAccessToken: true }, postData).then((resp) => {
         if (resp.success) {
           resolve()
         } else {
@@ -115,6 +111,36 @@ class TopicStore {
       }).catch((err) => {
         reject(err)
       })
+    })
+  }
+
+  @action createTopic(title, tab, content) {
+    return new Promise((resolve, reject) => {
+      post('topics', { needAccessToken: true }, {
+        title, tab, content,
+      })
+        .then((data) => {
+          if (data.success) {
+            const topic = {
+              title,
+              tab,
+              content,
+              id: data.topic_id,
+              create_at: Date.now(),
+            }
+            // this.createdTopics.push(new Topic(createTopic(topic)))
+            resolve(topic)
+          } else {
+            reject(new Error(data.error_msg || '未知错误'))
+          }
+        })
+        .catch((err) => {
+          if (err.response) {
+            reject(new Error(err.response.data.error_msg || '未知错误'))
+          } else {
+            reject(new Error('未知错误'))
+          }
+        })
     })
   }
 }

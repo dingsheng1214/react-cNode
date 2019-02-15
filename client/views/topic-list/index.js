@@ -93,7 +93,6 @@ class TopicList extends React.Component {
   }
 
   changePage(page, limit) {
-    console.log(page, limit)
     const { router } = this.context
     const { tab } = this.getSearch()
     router.history.push({
@@ -111,7 +110,6 @@ class TopicList extends React.Component {
 
   render() {
     const { classes, topicStore } = this.props
-    // console.log(this.props)
     const { topics, syncing } = topicStore
     const { tab } = this.getSearch()
     return (

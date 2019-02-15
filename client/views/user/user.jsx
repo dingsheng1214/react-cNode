@@ -23,7 +23,6 @@ class User extends React.Component {
       classes, user, children, isLoginPage,
     } = this.props
     const { avatar_url: avatarUrl, loginname } = user.detail
-    console.log('user ', isLoginPage);
     return (
       <Container>
         <div className={classes.avatar}>

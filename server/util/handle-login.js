@@ -2,11 +2,9 @@ const router = require('express').Router()
 const axios = require('axios')
 
 const baseUrl = 'https://cnodejs.org/api/v1'
-console.log('进入 /login')
 // 设置 login 路由
 router.post('/login', (req, res, next) => {
   // 验证token的正确性
-  console.log('/login 请求的token', req.body.accesstoken)
   axios.post(`${baseUrl}/accesstoken`, {
     accesstoken: req.body.accesstoken
   }).then(result => {
