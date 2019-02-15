@@ -10,8 +10,20 @@ import marked from 'marked'
 import styles from './style'
 
 class ReplyItem extends React.Component {
+  static contextTypes = {
+    router: PropTypes.object,
+  }
+
   componentDidMount() {
     // todo
+  }
+
+  goToUserInfo = (loginname, e) => {
+    e.preventDefault()
+    const { router } = this.context
+    router.history.push({
+      pathname: `/user/info/${loginname}`,
+    })
   }
 
   render() {
@@ -20,20 +32,25 @@ class ReplyItem extends React.Component {
     return (
       <div className={classes.reply_item}>
         <div className={classes.reply_author_content}>
-          <a href={`/user/${loginname}`}>
-            <Avatar
-              alt={loginname}
-              src={avatarUrl}
-              style={{ width: '30px', height: '30px' }}
-              title={loginname}
-            />
-          </a>
+          <Avatar
+            alt={loginname}
+            src={avatarUrl}
+            onClick={e => this.goToUserInfo(loginname, e)}
+            style={{ width: '30px', height: '30px', cursor: 'pointer' }}
+            title={loginname}
+          />
           <div className={classes.user_info}>
-            <a className={classes.reply_author} href={`/user/${loginname}`}>{loginname}</a>
+            <a
+              className={classes.reply_author}
+              onClick={e => this.goToUserInfo(loginname, e)}
+              style={{ cursor: 'pointer' }}
+            >
+              {loginname}
+            </a>
             <a className={classes.reply_time} href={`#${reply.id}`}>
               {index}
               楼·
-              {dateFormat(reply.create_at, 'yyyy-mm-dd')}
+              {dateFormat(reply.create_at, 'yyyy-mm-dd HH:MM:ss')}
             </a>
           </div>
         </div>

@@ -60,8 +60,8 @@ class MainAppBar extends React.Component {
   loginBtnClick() {
     const { router } = this.context
     const { appState } = this.props;
-    const { isLogin } = appState.user
-    const pathname = isLogin ? '/user/info' : '/user/login'
+    const { isLogin, info } = appState.user
+    const pathname = isLogin ? `/user/info/${info.loginname}` : '/user/login'
     router.history.push({
       pathname,
     })

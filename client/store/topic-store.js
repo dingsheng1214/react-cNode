@@ -5,7 +5,7 @@ import {
   computed,
 } from 'mobx'
 import { topicSchema } from '../util/constant'
-import { get } from '../util/http'
+import { get, post } from '../util/http'
 
 const createTopic = topic => (
   Object.assign({}, topicSchema, topic)
@@ -77,23 +77,44 @@ class TopicStore {
 
   // 话题详情
   @action getTopicDetail(id) {
+    console.log('getTopicDetail');
     return new Promise((resolve, reject) => {
-      if (this.detailMap[id]) {
-        resolve(this.detailMap[id])
-      } else {
-        get(`topic/${id}`, {
-          mdrender: false,
-        }).then((resp) => {
-          if (resp.success) {
-            this.addDetail(resp.data)
-            resolve()
-          } else {
-            reject()
-          }
-        }).catch((err) => {
-          reject(err)
-        })
-      }
+      // if (this.detailMap[id]) {
+      //       //   // 添加到缓存
+      //       //   console.log('启用缓存');
+      //       //   resolve(this.detailMap[id])
+      //       // } else {
+      get(`topic/${id}`, {
+        mdrender: false,
+      }).then((resp) => {
+        if (resp.success) {
+          this.addDetail(resp.data)
+          resolve()
+        } else {
+          reject()
+        }
+      }).catch((err) => {
+        reject(err)
+      })
+      // }
+    })
+  }
+
+  // 话题回复
+  @action doReply(id, content) {
+    return new Promise((resolve, reject) => {
+      post(`topic/${id}/replies`, { needAccessToken: true }, {
+        content,
+        reply_id: id,
+      }).then((resp) => {
+        if (resp.success) {
+          resolve()
+        } else {
+          reject()
+        }
+      }).catch((err) => {
+        reject(err)
+      })
     })
   }
 }

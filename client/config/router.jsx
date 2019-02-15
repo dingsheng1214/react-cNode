@@ -13,6 +13,7 @@ export default () => [
   <Route path="/list" component={TopicList} key="list" />,
   <Route path="/detail/:id" component={TopicDetail} key="detail" />,
   <Route path="/test" component={ApiTest} exact key="test" />,
-  <Route path="/user/login" component={UserLogin} exact key="userLogin" />,
-  <Route path="/user/info" component={UserInfo} exact key="userInfo" />,
+  <Route path="/user/login" component={UserLogin} exact key="Login" />,
+  // <Route path="/user/info" component={UserInfo} exact key="Info" />,
+  <Route path="/user/info/:loginname" component={UserInfo} exact key="userInfo" />,
 ]

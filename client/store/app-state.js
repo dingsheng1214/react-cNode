@@ -11,7 +11,8 @@ export default class AppState {
     isLogin: false,
     info: {},
     detail: {
-      syncing: false,
+      loginname: '',
+      avatar_url: '',
       recent_topics: [],
       recent_replies: [],
     },
@@ -30,8 +31,7 @@ export default class AppState {
         if (resp.success) {
           this.user.isLogin = true
           this.user.info = resp.data
-          console.log(this.user);
-          resolve()
+          resolve(this.user.info)
         } else {
           reject(resp)
         }
@@ -41,33 +41,30 @@ export default class AppState {
 
   // 获取用户详情
   @action
-  getUserDetail = () => {
-    this.user.detail.syncing = true
-    return new Promise((resolve, reject) => {
-      get('user/dsying')
-        .then((resp) => {
-          if (resp.success) {
-            this.user.detail.recent_replies = resp.data.recent_replies
-            this.user.detail.recent_topics = resp.data.recent_topics
-            resolve()
-          } else {
-            reject(resp.data.msg)
-          }
-          this.user.detail.syncing = false
-        }).catch((err) => {
-          console.log(this.user.info.loginname)
-          reject(err)
-          this.user.detail.syncing = false
-        })
-    })
-  }
+  getUserDetail = username => new Promise((resolve, reject) => {
+    get(`user/${username}`)
+      .then((resp) => {
+        if (resp.success) {
+          this.user.detail.loginname = resp.data.loginname
+          this.user.detail.avatar_url = resp.data.avatar_url
+          this.user.detail.recent_replies = resp.data.recent_replies
+          this.user.detail.recent_topics = resp.data.recent_topics
+          resolve()
+        } else {
+          reject(resp.data.msg)
+        }
+      }).catch((err) => {
+        console.log(this.user.info.loginname)
+        reject(err)
+      })
+  })
 
   // 获取收藏列表
   @action
-  getCollections = () => {
+  getCollections = (username) => {
     this.user.collections.syncing = true
     return new Promise((resolve, reject) => {
-      get('topic_collect/dsying')
+      get(`topic_collect/${username}`)
         .then((resp) => {
           if (resp.success) {
             this.user.collections.list = resp.data
