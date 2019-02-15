@@ -54,10 +54,10 @@ export default class AppState {
           reject(resp.data.msg)
         }
       }).catch((err) => {
-        console.log(this.user.info.loginname)
         reject(err)
       })
   })
+
 
   // 获取收藏列表
   @action
@@ -74,7 +74,6 @@ export default class AppState {
           }
           this.user.collections.syncing = false
         }).catch((err) => {
-          console.log(this.user.info.loginname)
           reject(err)
           this.user.collections.syncing = false
         })

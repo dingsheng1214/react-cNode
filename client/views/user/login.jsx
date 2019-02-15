@@ -4,10 +4,6 @@ import {
   inject,
   observer,
 } from 'mobx-react'
-import {
-  Redirect,
-} from 'react-router-dom'
-import queryString from 'query-string'
 
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
@@ -36,11 +32,6 @@ class UserLogin extends React.Component {
     this.handleInput = this.handleInput.bind(this)
   }
 
-  getFrom({ location } = this.props) {
-    const query = queryString.parse(location.search)
-    return query.from || '/user/info'
-  }
-
   // 点击登录
   handleLogin() {
     const { accesstoken } = this.state
@@ -57,7 +48,7 @@ class UserLogin extends React.Component {
       .then((resp) => {
         // 登录成功 跳转到 用户信息页面
         const { router } = this.context
-        router.history.replace(`/user/info/${resp.loginname}`)
+        router.history.replace(`/user/${resp.loginname}`)
       })
       .catch((msg) => {
         appState.notify({ message: msg })
@@ -72,18 +63,8 @@ class UserLogin extends React.Component {
   }
 
   render() {
-    const { classes, appState } = this.props
-    const { user } = appState
+    const { classes } = this.props
     const { helpText, accesstoken } = this.state
-    const from = this.getFrom()
-
-    // 如果已登录
-    if (user.isLogin) {
-      return (
-        <Redirect to={from} />
-      )
-    }
-
     return (
       <UserWrapper isLoginPage>
         <div className={classes.root}>

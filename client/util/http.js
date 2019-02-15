@@ -5,14 +5,13 @@
 
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:8887/'
+const baseUrl = 'http://localhost:3333/'
 const parseUrl = (url, params = {}) => {
   const str = Object.keys(params).reduce((result, key) => {
     result += `${key}=${params[key]}&`
     return result
   }, '')
   const finalUrl = str === '' ? `api/${url}` : `api/${url}?${str.substr(0, str.length - 1)}`
-  console.log(finalUrl)
   return `${baseUrl}${finalUrl}`
 }
 export const get = (url, param) => (

@@ -57,10 +57,8 @@ class UserInfo extends React.Component {
 
   // 获取数据
   componentWillMount() {
-    console.log('user info will mount -->');
     const { appState, match } = this.props
     const { loginname: username } = match.params
-
     appState.getUserDetail(username)
     appState.getCollections(username)
   }
@@ -74,7 +72,6 @@ class UserInfo extends React.Component {
   }
 
   render() {
-    console.log('user info render -->');
     const { classes, user } = this.props
     const { recent_topics: topics, recent_replies: replies } = user.detail
     const collections = user.collections.list
