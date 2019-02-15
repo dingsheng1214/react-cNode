@@ -12,6 +12,7 @@ import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import Button from '@material-ui/core/Button';
 
+import SimpleMD from 'react-simplemde-editor'
 import marked from 'marked'
 import highlight from 'highlightjs'
 import dateFormat from 'dateformat'
@@ -28,12 +29,18 @@ import ReplyItem from './reply-item'
   }
 )) @observer
 class TopicDetail extends React.Component {
+  // 通过context 获取 router
+  static contextTypes = {
+    router: PropTypes.object,
+  }
+
   constructor(props) {
     super(props)
     const { appState, match } = props
     const isCollected = appState.user.collections.list.find(item => item.id === match.params.id)
     this.state = {
       isCollected,
+      newReply: '',
     }
   }
 
@@ -55,9 +62,38 @@ class TopicDetail extends React.Component {
 
   // 根据id 查询话题详情
   getTopicDetail() {
+    console.log('获取话题详情');
     const { topicStore } = this.props
     const id = this.getTopicId()
     topicStore.getTopicDetail(id)
+  }
+
+  // simpleMD 回复内容
+  handleNewReplyChange = (value) => {
+    this.setState({
+      newReply: value,
+    })
+  }
+
+  // 登录并回复
+  goToLogin = () => {
+    const { router } = this.context
+    router.history.push({
+      pathname: '/user/login',
+    })
+  }
+
+  // 回复按钮
+  doReply = (id) => {
+    const { topicStore } = this.props
+    const { newReply } = this.state
+    topicStore.doReply(id, newReply).then(() => {
+      this.getTopicDetail()
+    }).then(() => {
+      this.setState({
+        newReply: '',
+      })
+    })
   }
 
   // 收藏
@@ -80,8 +116,9 @@ class TopicDetail extends React.Component {
     })
   }
 
+
   render() {
-    const { isCollected } = this.state
+    const { isCollected, newReply } = this.state
     const { classes, topicStore, appState } = this.props
     const id = this.getTopicId()
     const topic = topicStore.detailMap[id]
@@ -114,7 +151,7 @@ class TopicDetail extends React.Component {
               </a>
               <span>
                 发布于:
-                {dateFormat(topic.create_at, 'yyyy-mm-dd')}
+                {dateFormat(topic.create_at, 'yyyy-mm-dd HH:MM:ss')}
               </span>
               <span>
                 作者:
@@ -157,6 +194,27 @@ class TopicDetail extends React.Component {
             <span>{topic.reply_count}</span>
             <span> 回复</span>
           </div>
+          {
+              user.isLogin ? (
+                <section className={classes.replyEditor}>
+                  <SimpleMD
+                    onChange={this.handleNewReplyChange}
+                    value={newReply}
+                    options={{
+                      toolbar: false, autofocus: false, spellChecker: false, placeholder: '添加您的精彩回复',
+                    }}
+                  />
+                  <Button variant="contained" color="primary" className={classes.replyButton} onClick={() => this.doReply(id)}>回复</Button>
+                </section>
+              ) : null
+            }
+          {
+            !user.isLogin && (
+              <section className={classes.notLoginButton}>
+                <Button variant="contained" color="secondary" onClick={this.goToLogin}>登录并回复</Button>
+              </section>
+            )
+          }
           <List>
             { topic.replies.map((n, i) => <ReplyItem reply={n} key={n.id} index={i + 1} />) }
           </List>

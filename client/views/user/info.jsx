@@ -13,6 +13,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
+import dateFormat from 'dateformat'
+
 
 import UserWrapper from './user'
 import infoStyles from './styles/user-info-style'
@@ -34,7 +36,7 @@ const TopicItem = (({ topic, onClick }) => (
           {topic.title}
         </Typography>
       )}
-      secondary={`最新回复：${topic.last_reply_at}`}
+      secondary={`最新回复:${dateFormat(topic.last_reply_at, 'yyyy-mm-dd HH:MM:ss')}`}
     />
   </ListItem>
 ))
@@ -55,17 +57,12 @@ class UserInfo extends React.Component {
 
   // 获取数据
   componentWillMount() {
-    const { user, appState } = this.props
-    console.log('willMount', user);
-    const { router } = this.context
-    if (!user.isLogin) {
-      router.history.push({
-        pathname: '/user/login',
-      })
-    } else {
-      appState.getUserDetail()
-      appState.getCollections()
-    }
+    console.log('user info will mount -->');
+    const { appState, match } = this.props
+    const { loginname: username } = match.params
+
+    appState.getUserDetail(username)
+    appState.getCollections(username)
   }
 
   // 话题点击
@@ -77,6 +74,7 @@ class UserInfo extends React.Component {
   }
 
   render() {
+    console.log('user info render -->');
     const { classes, user } = this.props
     const { recent_topics: topics, recent_replies: replies } = user.detail
     const collections = user.collections.list
@@ -171,6 +169,7 @@ UserInfo.wrappedComponent.propTypes = {
 
 UserInfo.propTypes = {
   classes: PropTypes.object.isRequired,
+  match: PropTypes.object,
 }
 
 export default withStyles(infoStyles)(UserInfo)

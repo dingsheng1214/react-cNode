@@ -54,10 +54,10 @@ class UserLogin extends React.Component {
       helpText: '',
     })
     return appState.login(accesstoken)
-      .then(() => {
+      .then((resp) => {
         // 登录成功 跳转到 用户信息页面
         const { router } = this.context
-        router.history.replace('/user/info')
+        router.history.replace(`/user/info/${resp.loginname}`)
       })
       .catch((msg) => {
         appState.notify({ message: msg })
@@ -77,6 +77,7 @@ class UserLogin extends React.Component {
     const { helpText, accesstoken } = this.state
     const from = this.getFrom()
 
+    // 如果已登录
     if (user.isLogin) {
       return (
         <Redirect to={from} />
@@ -84,7 +85,7 @@ class UserLogin extends React.Component {
     }
 
     return (
-      <UserWrapper>
+      <UserWrapper isLoginPage>
         <div className={classes.root}>
           <TextField
             label="请输入Cnode AccessToken"
@@ -96,6 +97,7 @@ class UserLogin extends React.Component {
             className={classes.input}
           />
           <Button
+            variant="contained"
             color="primary"
             onClick={this.handleLogin}
             className={classes.loginButton}

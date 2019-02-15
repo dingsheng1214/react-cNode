@@ -83,6 +83,34 @@ const detailStyles = theme => ({
     textDecoration: 'none',
     marginLeft: '10px',
   },
+  replyEditor: {
+    position: 'relative',
+    padding: 24,
+    borderBottom: '1px solid #dfdfdf',
+    '& .CodeMirror': {
+      height: 150,
+      minHeight: 'auto',
+      '& .CodeMirror-scroll': {
+        minHeight: 'auto',
+      },
+    },
+  },
+  notLoginButton: {
+    textAlign: 'center',
+    padding: '20px 0',
+  },
+  replyButton: {
+    position: 'absolute',
+    fontSize: '14px',
+    right: 40,
+    bottom: 65,
+    zIndex: 101,
+    opacity: 0.1,
+    transition: 'opacity .3s',
+    '&:hover': {
+      opacity: 1,
+    },
+  },
 })
 
 export default detailStyles

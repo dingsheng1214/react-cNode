@@ -3,7 +3,6 @@ import React from 'react'
 import { AppContainer } from 'react-hot-loader'; // eslint-disable-line
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'mobx-react'
-
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { lightBlue, pink } from '@material-ui/core/colors';
 import App from './views/App'
