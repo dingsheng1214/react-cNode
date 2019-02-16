@@ -5,14 +5,16 @@
   "main": "index.js",
   "scripts": {
     "clear": "rimraf dist",
-    "build:client": "webpack --config build/webpack.config.client.js",
-    "build:server": "webpack --config build/webpack.config.server.js",
+    "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.config.client.js",
+    "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.config.server.js",
     "build": "npm run clear && npm run build:client",
     "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js",
     "dev:server": "nodemon server/server.js",
     "eslint": "eslint --ext .js --ext .jsx client/",
     "precommit": "npm run eslint",
-    "start": "cross-env NODE_ENV=production node server/server.js"
+    "uploadCdn": "node build/qiNiuUpload.js",
+    "start": "cross-env NODE_ENV=production node server/server.js",
+    "deploy": "npm run build && npm run uploadCdn"
   },
   "author": "dsying",
   "license": "ISC",
@@ -67,6 +69,7 @@
     "mobx-react-devtools": "^6.0.3",
     "morgan": "^1.9.1",
     "prop-types": "^15.6.2",
+    "qiniu": "^7.2.1",
     "query-string": "^6.2.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",

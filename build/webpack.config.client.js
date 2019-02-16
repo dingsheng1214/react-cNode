@@ -129,5 +129,9 @@ if(isDev){
       // 最大单个资源体积，默认250000 (bytes)
       maxAssetSize: 3000000
   }
+
+  const cdnConfig = require('./qiNiu.config').cdn
+  // 让 打包生成的静态文件 前缀为 七牛CDN的域名
+  config.output.publicPath = cdnConfig.host
 }
 module.exports = config

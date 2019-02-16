@@ -8,6 +8,7 @@ module.exports = {
 }
 
 /*
-* bucket: 空间名
-* host:CDN域名
+* 七牛云CDN 配置文件
+  * bucket: 空间名
+  * host:CDN域名
 * */
