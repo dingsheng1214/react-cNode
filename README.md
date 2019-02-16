@@ -25,9 +25,19 @@
   ```sh
   yarn add react-router-dom
   ```
-
-### Route && Redirect
-
+### BrowserRouter
+用<BrowserRouter> 组件包裹整个App系统后，就是通过html5的history来实现无刷新条件下的前端路由
+  ```js
+  // app.js
+  import { BrowserRouter } from 'react-router-dom'
+  import App from './views/App'
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+  ```
+  
+### Route
+Route 做的事情就是匹配相应的location中的地址，匹配成功后渲染对应的组件
   ```js
   //router.jsx
   export default () => [
@@ -36,9 +46,25 @@
     <Route path="/detail" component={TopicDetail} exact />,
   ]
   ```
++ path：当location中的url改变后，会与Route中的path属性做匹配，path决定了与路由或者url相关的渲染效果。
 
++ exact: 如果有exact，只有url地址完全与path相同，才会匹配。如果没有exact属性，url的地址不完全相同，也会匹配
+
+当Route组件与某一url匹配成功后，就会继续去渲染。那么什么属性决定去渲染哪个组件或者样式呢，Route的component、render、children决定渲染的内容。
+
++ component：该属性接受一个React组件，当url匹配成功，就会渲染该组件
++ render：func 该属性接受一个返回React Element的函数，当url匹配成功，渲染覆该返回的元素
++ children：与render相似，接受一个返回React Element的函数，但是不同点是，无论url与当前的Route的path匹配与否，children的内容始终会被渲染出来。
+
+并且这3个属性所接受的方法或者组件，都会有3个参数
++ location
++ match
++ history
+
+
+如果是组件，那么组件的props中会存在从Link传递过来的location，match以及history。
 ### Link
-
+Link 决定的是如何在页面内改变url
   ```js
   //app.jsx
   render() {
@@ -52,17 +78,8 @@
   }
   ```
 
-### BrowserRouter
 
-  ```js
-  // app.js
-  import { BrowserRouter } from 'react-router-dom'
-  import App from './views/App'
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-  ```
-### 如何切换路由
+### Link 标签之外如何切换路由
 ```js
   // 通过context 获取 router
   static contextTypes = {
@@ -75,6 +92,7 @@
     pathname: '/user/login'
   })
 ```
+
 
 ## [Mobx](https://cn.mobx.js.org/)
 

@@ -37,9 +37,17 @@ const render = (Component) => {
 }
 render(App)
 
+// react-hot-loader 热更新
 if (module.hot) {
   module.hot.accept('./views/App.jsx', () => {
     const NextApp = require('./views/App.jsx').default //eslint-disable-line
     render(NextApp)
   })
 }
+
+/*
+* AppContainer: 实现热更替
+* BrowserRouter： 使用HTML5的 history API 实现路由
+* Provider： Mobx提供数据
+* MuiThemeProvider： 提供material-ui的全局主题
+* */

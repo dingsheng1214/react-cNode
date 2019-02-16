@@ -5,3 +5,7 @@ export {
   topicStore,
   AppState,
 }
+
+/*
+* store/index.js 作为 Mobx store 的暴露接口
+* */
