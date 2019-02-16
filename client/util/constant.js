@@ -25,3 +25,7 @@ export const topicSchema = {
   },
   replies: [],
 }
+
+/*
+* util/constant.js 定义全局 常量
+* */

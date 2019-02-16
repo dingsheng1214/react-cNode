@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const HTMLPlugin = require('html-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 //判断是否是开发环境
 const isDev = process.env.NODE_ENV === 'development'
@@ -85,5 +86,48 @@ if(isDev){
         }
     }
     config.plugins = [...config.plugins, new webpack.HotModuleReplacementPlugin() ]
+}else {
+  config.mode = 'production'
+  config.entry = {
+    app: path.join(__dirname, '../client/app.js'),
+    vendor: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      'mobx',
+      'mobx-react',
+      'axios',
+      'query-string',
+      'dateformat',
+      'marked'
+    ]
+  }
+  config.output.filename = '[name].[chunkhash].js'
+
+  config.optimization = {
+    minimize: true,
+    runtimeChunk: {
+      name: "manifest"
+    },
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendor",
+          chunks: "all"
+        }
+      }
+    }
+  }
+
+  config.performance = {
+    // false | "error" | "warning" // 不显示性能提示 | 以错误形式提示 | 以警告...
+    hints: "warning",
+      // 开发环境设置较大防止警告
+      // 根据入口起点的最大体积，控制webpack何时生成性能提示,整数类型,以字节为单位
+      maxEntrypointSize: 5000000,
+      // 最大单个资源体积，默认250000 (bytes)
+      maxAssetSize: 3000000
+  }
 }
 module.exports = config

@@ -87,7 +87,7 @@ class TopicList extends React.Component {
     const { router } = this.context
     // 改变url
     router.history.push({
-      pathname: '/list',
+      pathname: '/index',
       search: `?tab=${tab}`,
     })
   }
@@ -96,7 +96,7 @@ class TopicList extends React.Component {
     const { router } = this.context
     const { tab } = this.getSearch()
     router.history.push({
-      pathname: '/list',
+      pathname: '/index',
       search: `?tab=${tab}&page=${page}&limit=${limit}`,
     })
   }

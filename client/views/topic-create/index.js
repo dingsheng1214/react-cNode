@@ -79,7 +79,7 @@ class TopicCreate extends React.Component {
     }
     return topicStore.createTopic(title, tab, content)
       .then(() => {
-        router.history.push('/list')
+        router.history.push('/index')
       })
       .catch((err) => {
         appState.notify({
