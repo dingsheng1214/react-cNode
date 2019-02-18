@@ -1,6 +1,6 @@
 const express = require('express')
-const ReactSSR = require('react-dom/server')
-const fs = require('fs')
+// const ReactSSR = require('react-dom/server')
+// const fs = require('fs')
 const path = require('path')
 const favicon = require('serve-favicon')
 const bodyParser = require('body-parser')
@@ -45,4 +45,6 @@ if (!isDev) {
   devStatic(app)
 }
 
-app.listen(3333, () => console.log('server is starting on port 3333'))
+const host = process.env.host || '0.0.0.0'
+const port = process.env.port || '3333'
+app.listen(port, host, () => console.log('server is starting on port 3333'))

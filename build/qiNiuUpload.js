@@ -1,5 +1,5 @@
 const qiniu = require('qiniu')
-const fs = require('fs')
+const fs = require('fs');
 const path = require('path')
 
 // 上传静态资源所需的配置
