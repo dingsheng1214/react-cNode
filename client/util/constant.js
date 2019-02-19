@@ -26,6 +26,7 @@ export const topicSchema = {
   replies: [],
 }
 
+export const baseUrl = 'http://47.105.144.204/'
 /*
 * util/constant.js 定义全局 常量
 * */
