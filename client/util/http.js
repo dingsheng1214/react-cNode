@@ -4,8 +4,9 @@
  */
 
 import axios from 'axios'
+import { baseUrl } from './constant'
 
-const baseUrl = 'http://localhost:3333/'
+// const baseUrl = 'http://localhost:3333/'
 const parseUrl = (url, params = {}) => {
   const str = Object.keys(params).reduce((result, key) => {
     result += `${key}=${params[key]}&`
