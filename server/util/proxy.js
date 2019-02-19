@@ -30,6 +30,9 @@ module.exports = function (req, res, next) {
     }
   }).then(result => {
     if (result.status === 200) {
+      res.header({
+        'Access-Control-Allow-Origin': '*'
+      })
       res.send(result.data)
     } else {
       res.status(result.status).send(result.data)
